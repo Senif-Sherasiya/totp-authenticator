@@ -1,21 +1,8 @@
 import 'package:flutter/material.dart';
 
-const accentColors = <Color>[
-  Color(0xFF1E88E5),
-  Color(0xFF00897B),
-  Color(0xFF43A047),
-  Color(0xFF8E24AA),
-  Color(0xFFD81B60),
-  Color(0xFFE53935),
-  Color(0xFFF4511E),
-  Color(0xFF6D4C41),
-  Color(0xFF3949AB),
-  Color(0xFF546E7A),
-];
+/// Stored per app for backwards compatibility with saved data. The UI uses
+/// a single app-wide accent, so new apps simply get the first colour.
+const accentColors = <Color>[Color(0xFF2F5D9E)];
 
-/// Amber in the last 5 seconds, red in the last 3.
-Color urgencyColor(int secondsLeft, Color normal) {
-  if (secondsLeft <= 3) return Colors.red.shade600;
-  if (secondsLeft <= 5) return Colors.amber.shade700;
-  return normal;
-}
+/// Codes are shown in the warning tone for their last few seconds.
+const urgentSeconds = 5;

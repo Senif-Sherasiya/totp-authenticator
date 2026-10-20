@@ -16,8 +16,8 @@ void main() {
       StAuthenticatorApp(controller: controller, clock: clock),
     );
 
-    expect(find.text('Add your first app'), findsOneWidget);
-    expect(find.textContaining('Device time:'), findsOneWidget);
+    expect(find.text('No apps yet'), findsOneWidget);
+    expect(find.textContaining('Device time:'), findsNothing);
 
     await tester.tap(find.text('Add app').first);
     await tester.pumpAndSettle();

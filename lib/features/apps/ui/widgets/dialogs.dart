@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 
+import 'package:st_authenticator/core/theme/app_theme.dart';
 import 'package:st_authenticator/features/apps/models/auth_app.dart';
 
 Future<bool> confirmDelete(BuildContext context, AuthApp app) async {
+  HapticFeedback.mediumImpact();
   final ok = await showDialog<bool>(
     context: context,
     builder: (ctx) => AlertDialog(
-      icon: const Icon(Icons.warning_amber_rounded),
       title: Text('Delete "${app.name}"?'),
       content: const Text(
         'The secret will be permanently removed from this device. Unless '
@@ -18,11 +21,8 @@ Future<bool> confirmDelete(BuildContext context, AuthApp app) async {
           onPressed: () => Navigator.pop(ctx, false),
           child: const Text('Cancel'),
         ),
-        FilledButton(
-          style: FilledButton.styleFrom(
-            backgroundColor: Theme.of(ctx).colorScheme.error,
-            foregroundColor: Theme.of(ctx).colorScheme.onError,
-          ),
+        TextButton(
+          style: TextButton.styleFrom(foregroundColor: ctx.colors.danger),
           onPressed: () => Navigator.pop(ctx, true),
           child: const Text('Delete'),
         ),
@@ -36,7 +36,6 @@ Future<bool> confirmReplaceSecret(BuildContext context) async {
   final ok = await showDialog<bool>(
     context: context,
     builder: (ctx) => AlertDialog(
-      icon: const Icon(Icons.key),
       title: const Text('Replace secret?'),
       content: const Text(
         'Changing the secret, digits or period means codes made with the '
@@ -47,7 +46,7 @@ Future<bool> confirmReplaceSecret(BuildContext context) async {
           onPressed: () => Navigator.pop(ctx, false),
           child: const Text('Cancel'),
         ),
-        FilledButton(
+        TextButton(
           onPressed: () => Navigator.pop(ctx, true),
           child: const Text('Replace'),
         ),
@@ -55,4 +54,30 @@ Future<bool> confirmReplaceSecret(BuildContext context) async {
     ),
   );
   return ok ?? false;
+}
+
+Future<void> showCameraSettingsDialog(BuildContext context) {
+  return showDialog<void>(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      title: const Text('Camera access needed'),
+      content: const Text(
+        'Camera permission is turned off for this app. Open Settings and '
+        'allow camera access to scan QR codes.',
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(ctx),
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.pop(ctx);
+            openAppSettings();
+          },
+          child: const Text('Open Settings'),
+        ),
+      ],
+    ),
+  );
 }

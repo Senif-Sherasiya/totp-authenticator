@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
+import 'package:st_authenticator/core/theme/app_theme.dart';
 import 'package:st_authenticator/features/apps/state/app_controller.dart';
 import 'package:st_authenticator/features/apps/state/app_scope.dart';
 import 'package:st_authenticator/features/apps/ui/screens/home_screen.dart';
@@ -17,22 +19,29 @@ class StAuthenticatorApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme(Brightness b) => ThemeData(
-      useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xFF3949AB),
-        brightness: b,
-      ),
-    );
     return AppScope(
       controller: controller,
       clock: clock,
       child: MaterialApp(
         title: 'Authenticator',
         debugShowCheckedModeBanner: false,
-        theme: theme(Brightness.light),
-        darkTheme: theme(Brightness.dark),
+        theme: buildTheme(Brightness.light),
+        darkTheme: buildTheme(Brightness.dark),
         themeMode: ThemeMode.system,
+        builder: (context, child) {
+          final dark = Theme.of(context).brightness == Brightness.dark;
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: SystemUiOverlayStyle(
+              systemNavigationBarColor: Colors.transparent,
+              systemNavigationBarDividerColor: Colors.transparent,
+              systemNavigationBarContrastEnforced: false,
+              systemNavigationBarIconBrightness: dark
+                  ? Brightness.light
+                  : Brightness.dark,
+            ),
+            child: child!,
+          );
+        },
         home: const HomeScreen(),
       ),
     );
