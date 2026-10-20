@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
-import '../state/app_controller.dart';
-import 'second_clock.dart';
+import 'package:st_authenticator/features/apps/state/app_controller.dart';
+import 'package:st_authenticator/core/time/second_clock.dart';
 
 class AppScope extends InheritedWidget {
   const AppScope({

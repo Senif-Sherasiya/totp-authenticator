@@ -49,7 +49,7 @@ Algorithm is fixed to HMAC-SHA1 for every app.
 
 ## 3. The TOTP algorithm (must match every verifier)
 
-Standard RFC 6238 on RFC 4226 HOTP. Implemented by hand in `lib/core/totp.dart` using only the `crypto` package (no TOTP library).
+Standard RFC 6238 on RFC 4226 HOTP. Implemented by hand in `lib/core/otp/totp.dart` using only the `crypto` package (no TOTP library).
 
 | Parameter | Value |
 |---|---|

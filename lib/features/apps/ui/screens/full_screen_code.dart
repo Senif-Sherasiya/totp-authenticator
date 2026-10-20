@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../core/totp.dart';
-import 'app_scope.dart';
-import 'code_card.dart';
-import 'countdown_ring.dart';
-import 'palette.dart';
+import 'package:st_authenticator/core/otp/totp.dart';
+import 'package:st_authenticator/features/apps/state/app_scope.dart';
+import 'package:st_authenticator/features/apps/ui/widgets/code_card.dart';
+import 'package:st_authenticator/features/apps/ui/widgets/countdown_ring.dart';
+import 'package:st_authenticator/core/theme/palette.dart';
 
 class FullScreenCode extends StatelessWidget {
   const FullScreenCode({super.key, required this.appId});
@@ -52,25 +52,31 @@ class FullScreenCode extends StatelessWidget {
                   ),
                   const SizedBox(height: 32),
                   CountdownRing(
-                      secondsLeft: left,
-                      period: app.periodSeconds,
-                      size: 120,
-                      color: accent),
+                    secondsLeft: left,
+                    period: app.periodSeconds,
+                    size: 120,
+                    color: accent,
+                  ),
                   const SizedBox(height: 24),
                   SizedBox(
                     height: 48,
                     child: expiring
-                        ? Column(children: [
-                            Text('Next code',
-                                style: Theme.of(context).textTheme.labelMedium),
-                            Text(
-                              Totp.formatCode(app.codeAt(now, stepOffset: 1)),
-                              style: const TextStyle(
+                        ? Column(
+                            children: [
+                              Text(
+                                'Next code',
+                                style: Theme.of(context).textTheme.labelMedium,
+                              ),
+                              Text(
+                                Totp.formatCode(app.codeAt(now, stepOffset: 1)),
+                                style: const TextStyle(
                                   fontSize: 20,
                                   letterSpacing: 2,
-                                  fontFeatures: [FontFeature.tabularFigures()]),
-                            ),
-                          ])
+                                  fontFeatures: [FontFeature.tabularFigures()],
+                                ),
+                              ),
+                            ],
+                          )
                         : null,
                   ),
                   const SizedBox(height: 16),

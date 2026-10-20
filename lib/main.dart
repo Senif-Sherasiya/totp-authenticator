@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'app.dart';
-import 'data/app_repository.dart';
-import 'state/app_controller.dart';
-import 'ui/second_clock.dart';
+import 'package:st_authenticator/app.dart';
+import 'package:st_authenticator/features/apps/data/app_repository.dart';
+import 'package:st_authenticator/features/apps/state/app_controller.dart';
+import 'package:st_authenticator/core/time/second_clock.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -68,7 +68,12 @@ class OtpAuthParser {
   }
 
   static int _intParam(
-      Map<String, String> p, String key, int fallback, int min, int max) {
+    Map<String, String> p,
+    String key,
+    int fallback,
+    int min,
+    int max,
+  ) {
     final raw = p[key];
     if (raw == null) return fallback;
     final v = int.tryParse(raw);

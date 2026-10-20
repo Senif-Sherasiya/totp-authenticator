@@ -143,7 +143,7 @@ Your published app must verify the code. The rules it must follow:
 5. Persist the unlock and the last accepted step.
 6. Limit wrong attempts (about 5, then an increasing delay).
 
-**Flutter/Dart app?** Copy [lib/core/totp.dart](lib/core/totp.dart) unchanged into your app. It is pure Dart and only needs the `crypto` package, so it is guaranteed to produce the same codes.
+**Flutter/Dart app?** Copy [lib/core/otp/totp.dart](lib/core/otp/totp.dart) unchanged into your app. It is pure Dart and only needs the `crypto` package, so it is guaranteed to produce the same codes.
 
 ```yaml
 dependencies:
@@ -188,21 +188,28 @@ Read this before you rely on it.
 
 ```
 lib/
-  main.dart                 startup
-  app.dart                  theme and app shell
-  core/
-    totp.dart               TOTP / HOTP / Base32 (pure Dart, no Flutter)
-    otpauth.dart            otpauth:// link parser (pure Dart)
-  models/auth_app.dart      the AuthApp record (name, secret, digits, period, colour)
-  data/app_repository.dart  secure storage of the app list
-  state/app_controller.dart app list state (ChangeNotifier)
-  ui/                       screens and widgets
-android/                    FLAG_SECURE, permissions, backup disabled
-test/                       unit and widget tests
-docs/                       detailed guides
+  main.dart                      startup
+  app.dart                       theme and app shell
+  core/                          app-wide code shared by features
+    otp/
+      totp.dart                  TOTP / HOTP / Base32 (pure Dart, no Flutter)
+      otpauth.dart               otpauth:// link parser (pure Dart)
+    theme/palette.dart           colour palette
+    time/second_clock.dart       once-a-second tick
+  features/
+    apps/                        the authenticator feature
+      models/auth_app.dart       the AuthApp record (name, secret, digits, period, colour)
+      data/app_repository.dart   secure storage of the app list
+      state/                     AppController (ChangeNotifier) and AppScope
+      ui/
+        screens/                 home, add/edit form, full-screen code, QR scan
+        widgets/                 code card, countdown ring, dialogs, time banner
+android/                         FLAG_SECURE, permissions, backup disabled
+test/                            mirrors lib/ (core/, features/, helpers/)
+docs/                            detailed guides
 ```
 
-Layers go `core` ← `models` ← `data` ← `state` ← `ui`. Nothing in `core/` imports Flutter, so it can be tested without a device.
+Dependencies go `core/otp` ← `models` ← `data` ← `state` ← `ui`. Nothing in `core/otp/` imports Flutter, so it can be tested without a device.
 
 ---
 

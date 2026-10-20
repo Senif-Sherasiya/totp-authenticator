@@ -1,16 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:st_authenticator/data/app_repository.dart';
-import 'package:st_authenticator/models/auth_app.dart';
+import 'package:st_authenticator/features/apps/data/app_repository.dart';
+import 'package:st_authenticator/features/apps/models/auth_app.dart';
 
-import 'fakes.dart';
+import '../../../helpers/fakes.dart';
 
 AuthApp app(String id, String name) => AuthApp(
-      id: id,
-      name: name,
-      secretBase32: 'GEZDGNBVGY3TQOJQ',
-      colorValue: 0xFF1E88E5,
-      createdAt: DateTime.utc(2026, 1, 1),
-    );
+  id: id,
+  name: name,
+  secretBase32: 'GEZDGNBVGY3TQOJQ',
+  colorValue: 0xFF1E88E5,
+  createdAt: DateTime.utc(2026, 1, 1),
+);
 
 void main() {
   late FakeStore store;
@@ -37,11 +37,15 @@ void main() {
 
   test('duplicate names rejected (trim + case-insensitive)', () async {
     await repo.add(app('1', 'Alpha'));
-    expect(() => repo.add(app('2', ' alpha ')),
-        throwsA(isA<DuplicateNameException>()));
+    expect(
+      () => repo.add(app('2', ' alpha ')),
+      throwsA(isA<DuplicateNameException>()),
+    );
     await repo.add(app('2', 'Beta'));
-    expect(() => repo.update(app('2', 'ALPHA')),
-        throwsA(isA<DuplicateNameException>()));
+    expect(
+      () => repo.update(app('2', 'ALPHA')),
+      throwsA(isA<DuplicateNameException>()),
+    );
     expect((await repo.load()).length, 2);
   });
 
@@ -68,8 +72,10 @@ void main() {
 
   test('corrupt data throws instead of being overwritten', () async {
     store.data[StoredAppRepository.storageKey] = '{not json';
-    expect(() => StoredAppRepository(store).load(),
-        throwsA(isA<StorageException>()));
+    expect(
+      () => StoredAppRepository(store).load(),
+      throwsA(isA<StorageException>()),
+    );
     expect(store.data[StoredAppRepository.storageKey], '{not json');
   });
 }

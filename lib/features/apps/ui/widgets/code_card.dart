@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../core/totp.dart';
-import '../models/auth_app.dart';
-import 'app_scope.dart';
-import 'countdown_ring.dart';
-import 'palette.dart';
+import 'package:st_authenticator/core/otp/totp.dart';
+import 'package:st_authenticator/features/apps/models/auth_app.dart';
+import 'package:st_authenticator/features/apps/state/app_scope.dart';
+import 'package:st_authenticator/features/apps/ui/widgets/countdown_ring.dart';
+import 'package:st_authenticator/core/theme/palette.dart';
 
 enum CardAction { edit, delete, fullScreen }
 
@@ -16,16 +16,11 @@ Future<void> copyCode(BuildContext context, AuthApp app) async {
   if (!context.mounted) return;
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
-    ..showSnackBar(
-        SnackBar(content: Text('${app.name} code copied')));
+    ..showSnackBar(SnackBar(content: Text('${app.name} code copied')));
 }
 
 class CodeCard extends StatelessWidget {
-  const CodeCard({
-    super.key,
-    required this.app,
-    required this.onAction,
-  });
+  const CodeCard({super.key, required this.app, required this.onAction});
 
   final AuthApp app;
   final void Function(CardAction) onAction;
@@ -58,10 +53,12 @@ class CodeCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(app.name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.titleMedium),
+                        Text(
+                          app.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
                         const SizedBox(height: 2),
                         Text(
                           Totp.formatCode(app.codeAt(now)),
@@ -77,19 +74,25 @@ class CodeCard extends StatelessWidget {
                     ),
                   ),
                   CountdownRing(
-                      secondsLeft: left,
-                      period: app.periodSeconds,
-                      color: accent),
+                    secondsLeft: left,
+                    period: app.periodSeconds,
+                    color: accent,
+                  ),
                   PopupMenuButton<CardAction>(
                     onSelected: onAction,
                     itemBuilder: (_) => const [
                       PopupMenuItem(
-                          value: CardAction.fullScreen,
-                          child: Text('Show full-screen')),
+                        value: CardAction.fullScreen,
+                        child: Text('Show full-screen'),
+                      ),
                       PopupMenuItem(
-                          value: CardAction.edit, child: Text('Edit')),
+                        value: CardAction.edit,
+                        child: Text('Edit'),
+                      ),
                       PopupMenuItem(
-                          value: CardAction.delete, child: Text('Delete')),
+                        value: CardAction.delete,
+                        child: Text('Delete'),
+                      ),
                     ],
                   ),
                 ],

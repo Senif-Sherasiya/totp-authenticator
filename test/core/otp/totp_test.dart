@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:st_authenticator/core/totp.dart';
+import 'package:st_authenticator/core/otp/totp.dart';
 
 void main() {
   final rfcSecret = Uint8List.fromList(ascii.encode('12345678901234567890'));
@@ -21,8 +21,10 @@ void main() {
     vectors.forEach((unix, code8) {
       test('t=$unix', () {
         expect(Totp.generate(rfcSecret, at(unix), digits: 8), code8);
-        expect(Totp.generate(rfcSecret, at(unix)),
-            code8.substring(2)); // 6 digits = last 6
+        expect(
+          Totp.generate(rfcSecret, at(unix)),
+          code8.substring(2),
+        ); // 6 digits = last 6
       });
     });
   });
@@ -54,8 +56,10 @@ void main() {
       final c = Totp.generate(rfcSecret, at(0), digits: 8, periodSeconds: 60);
       expect(c.length, 8);
       expect(Totp.generate(rfcSecret, at(59), digits: 8, periodSeconds: 60), c);
-      expect(Totp.generate(rfcSecret, at(60), digits: 8, periodSeconds: 60),
-          isNot(c));
+      expect(
+        Totp.generate(rfcSecret, at(60), digits: 8, periodSeconds: 60),
+        isNot(c),
+      );
       expect(Totp.counterFor(at(119), periodSeconds: 60), 1);
       expect(Totp.generate(rfcSecret, at(0), digits: 7).length, 7);
     });

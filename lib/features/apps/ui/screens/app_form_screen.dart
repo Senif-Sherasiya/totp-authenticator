@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../core/otpauth.dart';
-import '../core/totp.dart';
-import '../data/app_repository.dart';
-import '../models/auth_app.dart';
-import 'app_scope.dart';
-import 'dialogs.dart';
-import 'palette.dart';
-import 'scan_screen.dart';
+import 'package:st_authenticator/core/otp/otpauth.dart';
+import 'package:st_authenticator/core/otp/totp.dart';
+import 'package:st_authenticator/features/apps/data/app_repository.dart';
+import 'package:st_authenticator/features/apps/models/auth_app.dart';
+import 'package:st_authenticator/features/apps/state/app_scope.dart';
+import 'package:st_authenticator/features/apps/ui/widgets/dialogs.dart';
+import 'package:st_authenticator/core/theme/palette.dart';
+import 'package:st_authenticator/features/apps/ui/screens/scan_screen.dart';
 
 /// Add (existing == null) or edit an app.
 class AppFormScreen extends StatefulWidget {
@@ -79,15 +79,16 @@ class _AppFormScreenState extends State<AppFormScreen> {
 
   Future<void> _scan() async {
     final data = await Navigator.push<OtpAuthData>(
-        context, MaterialPageRoute(builder: (_) => const ScanScreen()));
+      context,
+      MaterialPageRoute(builder: (_) => const ScanScreen()),
+    );
     if (data != null && mounted) _apply(data);
   }
 
   String? _validateName(String? v) {
     final name = (v ?? '').trim();
     if (name.isEmpty) return 'App name is required';
-    if (AppScope.of(context)
-        .controller
+    if (AppScope.of(context).controller
         .isNameTaken(name, exceptId: widget.existing?.id)) {
       return 'An app with this name already exists';
     }
@@ -137,13 +138,15 @@ class _AppFormScreenState extends State<AppFormScreen> {
         if (!mounted) return;
         await _showTestCode(app);
       } else {
-        await controller.update(old.copyWith(
-          name: name,
-          secretBase32: secret,
-          digits: _digits,
-          periodSeconds: _period,
-          colorValue: _color.toARGB32(),
-        ));
+        await controller.update(
+          old.copyWith(
+            name: name,
+            secretBase32: secret,
+            digits: _digits,
+            periodSeconds: _period,
+            colorValue: _color.toARGB32(),
+          ),
+        );
       }
       if (mounted) Navigator.pop(context);
     } on DuplicateNameException {
@@ -172,18 +175,23 @@ class _AppFormScreenState extends State<AppFormScreen> {
             children: [
               const Text('Test code — check it works in your app:'),
               const SizedBox(height: 12),
-              Text(Totp.formatCode(app.codeAt(clock.now)),
-                  style: const TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 2)),
+              Text(
+                Totp.formatCode(app.codeAt(clock.now)),
+                style: const TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 2,
+                ),
+              ),
               const SizedBox(height: 4),
               Text('${app.secondsLeftAt(clock.now)} s left'),
             ],
           ),
           actions: [
             FilledButton(
-                onPressed: () => Navigator.pop(ctx), child: const Text('Done')),
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('Done'),
+            ),
           ],
         ),
       ),
@@ -213,7 +221,9 @@ class _AppFormScreenState extends State<AppFormScreen> {
               controller: _name,
               textCapitalization: TextCapitalization.words,
               decoration: const InputDecoration(
-                  labelText: 'App name', border: OutlineInputBorder()),
+                labelText: 'App name',
+                border: OutlineInputBorder(),
+              ),
               validator: _validateName,
               onChanged: (_) => _nameError = null,
             ),
@@ -240,7 +250,8 @@ class _AppFormScreenState extends State<AppFormScreen> {
                     IconButton(
                       tooltip: _obscure ? 'Show secret' : 'Hide secret',
                       icon: Icon(
-                          _obscure ? Icons.visibility : Icons.visibility_off),
+                        _obscure ? Icons.visibility : Icons.visibility_off,
+                      ),
                       onPressed: () => setState(() => _obscure = !_obscure),
                     ),
                   ],
@@ -276,8 +287,10 @@ class _AppFormScreenState extends State<AppFormScreen> {
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Digits',
-                      style: Theme.of(context).textTheme.labelLarge),
+                  child: Text(
+                    'Digits',
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 SegmentedButton<int>(
@@ -292,8 +305,10 @@ class _AppFormScreenState extends State<AppFormScreen> {
                 const SizedBox(height: 12),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Period: $_period seconds',
-                      style: Theme.of(context).textTheme.labelLarge),
+                  child: Text(
+                    'Period: $_period seconds',
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
                 ),
                 Slider(
                   min: 15,

@@ -1,4 +1,4 @@
-import 'package:st_authenticator/data/app_repository.dart';
+import 'package:st_authenticator/features/apps/data/app_repository.dart';
 
 class FakeStore implements KeyValueStore {
   final Map<String, String> data = {};

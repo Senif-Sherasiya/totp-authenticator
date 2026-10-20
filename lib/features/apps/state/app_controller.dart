@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
-import '../data/app_repository.dart';
-import '../models/auth_app.dart';
+import 'package:st_authenticator/features/apps/data/app_repository.dart';
+import 'package:st_authenticator/features/apps/models/auth_app.dart';
 
 class AppController extends ChangeNotifier {
   AppController(this._repo);
@@ -38,7 +38,9 @@ class AppController extends ChangeNotifier {
 
   bool isNameTaken(String name, {String? exceptId}) {
     final k = name.trim().toLowerCase();
-    return _apps.any((a) => a.id != exceptId && a.name.trim().toLowerCase() == k);
+    return _apps.any(
+      (a) => a.id != exceptId && a.name.trim().toLowerCase() == k,
+    );
   }
 
   /// [secretBase32] must already be normalised.

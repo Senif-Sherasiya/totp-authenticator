@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'palette.dart';
+import 'package:st_authenticator/core/theme/palette.dart';
 
 class CountdownRing extends StatelessWidget {
   const CountdownRing({
@@ -34,11 +34,14 @@ class CountdownRing extends StatelessWidget {
               backgroundColor: scheme.surfaceContainerHighest,
             ),
           ),
-          Text('$secondsLeft',
-              style: TextStyle(
-                  fontSize: size * 0.34,
-                  fontWeight: FontWeight.w600,
-                  color: c)),
+          Text(
+            '$secondsLeft',
+            style: TextStyle(
+              fontSize: size * 0.34,
+              fontWeight: FontWeight.w600,
+              color: c,
+            ),
+          ),
         ],
       ),
     );

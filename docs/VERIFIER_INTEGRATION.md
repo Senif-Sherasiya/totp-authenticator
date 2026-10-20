@@ -37,7 +37,7 @@ The authenticator displays only the current step's code. The ±1 window exists s
 
 ## 3. Easiest and safest route: reuse the same Dart file
 
-If your app is Flutter/Dart, **copy `lib/core/totp.dart` from this project unchanged** into your app. It is pure Dart and depends only on `crypto`. Using the identical file guarantees the same algorithm, Base32 handling and time maths.
+If your app is Flutter/Dart, **copy `lib/core/otp/totp.dart` from this project unchanged** into your app. It is pure Dart and depends only on `crypto`. Using the identical file guarantees the same algorithm, Base32 handling and time maths.
 
 Add to your `pubspec.yaml`:
 

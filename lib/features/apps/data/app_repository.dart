@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../models/auth_app.dart';
+import 'package:st_authenticator/features/apps/models/auth_app.dart';
 
 class DuplicateNameException implements Exception {
   const DuplicateNameException(this.name);
@@ -40,7 +40,7 @@ abstract class KeyValueStore {
 
 class SecureKeyValueStore implements KeyValueStore {
   SecureKeyValueStore([FlutterSecureStorage? storage])
-      : _storage = storage ?? const FlutterSecureStorage();
+    : _storage = storage ?? const FlutterSecureStorage();
   final FlutterSecureStorage _storage;
 
   @override
@@ -85,7 +85,9 @@ class StoredAppRepository implements AppRepository {
 
   Future<void> _commit(List<AuthApp> next) async {
     await _store.write(
-        storageKey, jsonEncode(next.map((a) => a.toJson()).toList()));
+      storageKey,
+      jsonEncode(next.map((a) => a.toJson()).toList()),
+    );
     _apps = next;
   }
 

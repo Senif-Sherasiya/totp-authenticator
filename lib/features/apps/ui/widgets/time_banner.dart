@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'app_scope.dart';
+import 'package:st_authenticator/features/apps/state/app_scope.dart';
 
 class TimeBanner extends StatelessWidget {
   const TimeBanner({super.key});
@@ -28,16 +28,23 @@ class TimeBanner extends StatelessWidget {
             const SizedBox(width: 8),
             Expanded(
               child: Text.rich(
-                TextSpan(children: [
-                  TextSpan(
+                TextSpan(
+                  children: [
+                    TextSpan(
                       text: 'Device time: ${_fmt(clock.now)}\n',
-                      style: const TextStyle(fontWeight: FontWeight.w600)),
-                  const TextSpan(
-                      text: 'Codes depend on an accurate clock. Enable '
-                          'automatic date & time in Android settings.'),
-                ]),
+                      style: const TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    const TextSpan(
+                      text:
+                          'Codes depend on an accurate clock. Enable '
+                          'automatic date & time in Android settings.',
+                    ),
+                  ],
+                ),
                 style: TextStyle(
-                    fontSize: 12, color: scheme.onSecondaryContainer),
+                  fontSize: 12,
+                  color: scheme.onSecondaryContainer,
+                ),
               ),
             ),
           ],

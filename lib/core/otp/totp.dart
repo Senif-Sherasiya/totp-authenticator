@@ -13,15 +13,22 @@ class Totp {
 
   /// Time step index: floor(unixSeconds / period). Uses the epoch only, so the
   /// device time zone (or [DateTime.isUtc]) cannot influence the result.
-  static int counterFor(DateTime time,
-      {int periodSeconds = defaultPeriodSeconds}) {
+  static int counterFor(
+    DateTime time, {
+    int periodSeconds = defaultPeriodSeconds,
+  }) {
     _checkPeriod(periodSeconds);
-    return _floorDiv(_floorDiv(time.millisecondsSinceEpoch, 1000), periodSeconds);
+    return _floorDiv(
+      _floorDiv(time.millisecondsSinceEpoch, 1000),
+      periodSeconds,
+    );
   }
 
   /// Whole seconds left in the current step, in 1..[periodSeconds].
-  static int secondsRemaining(DateTime time,
-      {int periodSeconds = defaultPeriodSeconds}) {
+  static int secondsRemaining(
+    DateTime time, {
+    int periodSeconds = defaultPeriodSeconds,
+  }) {
     _checkPeriod(periodSeconds);
     final unix = _floorDiv(time.millisecondsSinceEpoch, 1000);
     return periodSeconds - (unix % periodSeconds);
@@ -34,13 +41,19 @@ class Totp {
     int digits = defaultDigits,
     int periodSeconds = defaultPeriodSeconds,
   }) {
-    return hotp(secret, counterFor(time, periodSeconds: periodSeconds),
-        digits: digits);
+    return hotp(
+      secret,
+      counterFor(time, periodSeconds: periodSeconds),
+      digits: digits,
+    );
   }
 
   /// RFC 4226 HOTP with HMAC-SHA1.
-  static String hotp(Uint8List secret, int counter,
-      {int digits = defaultDigits}) {
+  static String hotp(
+    Uint8List secret,
+    int counter, {
+    int digits = defaultDigits,
+  }) {
     if (digits < 1 || digits > 9) {
       throw ArgumentError.value(digits, 'digits', 'must be between 1 and 9');
     }
@@ -48,7 +61,8 @@ class Totp {
       ..buffer.asByteData().setUint64(0, counter, Endian.big);
     final hash = Hmac(sha1, secret).convert(counterBytes).bytes; // 20 bytes
     final offset = hash[19] & 0x0f;
-    final binary = ((hash[offset] & 0x7f) << 24) |
+    final binary =
+        ((hash[offset] & 0x7f) << 24) |
         ((hash[offset + 1] & 0xff) << 16) |
         ((hash[offset + 2] & 0xff) << 8) |
         (hash[offset + 3] & 0xff);
@@ -87,7 +101,8 @@ class Totp {
       final value = _alphabet.indexOf(String.fromCharCode(unit));
       if (value < 0) {
         throw FormatException(
-            'Invalid Base32 character "${String.fromCharCode(unit)}"');
+          'Invalid Base32 character "${String.fromCharCode(unit)}"',
+        );
       }
       buffer = (buffer << 5) | value;
       bits += 5;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
-import '../core/otpauth.dart';
+import 'package:st_authenticator/core/otp/otpauth.dart';
 
 /// Scans a QR code and pops with the parsed [OtpAuthData].
 class ScanScreen extends StatefulWidget {
