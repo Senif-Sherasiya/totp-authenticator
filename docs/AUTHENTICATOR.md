@@ -240,7 +240,7 @@ Plain `ChangeNotifier`. `AppController` holds the list; `SecondClock` is a secon
 - **CAMERA** is requested only for QR scanning; `uses-feature camera` is `required="false"`.
 - **Backups disabled:** `allowBackup="false"`, `fullBackupContent="false"` and a `data_extraction_rules.xml` excluding everything. Secrets must not leave the device, and restored Keystore-encrypted data would be unreadable anyway.
 - `minSdk` is raised to 24 (required by `flutter_secure_storage`).
-- The app id is still `com.example.st_authenticator` and release builds are signed with the debug key. **Change both before any real distribution.**
+- Release builds are signed with the debug key. **Set up a proper signing key before any real distribution.**
 
 ---
 

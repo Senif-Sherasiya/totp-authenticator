@@ -1,4 +1,4 @@
-package com.example.st_authenticator
+package com.sherasiya.authenticator
 
 import android.os.Bundle
 import android.view.WindowManager

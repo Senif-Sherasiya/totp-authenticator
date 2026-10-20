@@ -8,7 +8,7 @@
 PRODUCT_NAME = st_authenticator
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.stAuthenticator
+PRODUCT_BUNDLE_IDENTIFIER = com.sherasiya.authenticator
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2026 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2026 com.sherasiya. All rights reserved.

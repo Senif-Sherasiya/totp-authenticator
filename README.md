@@ -89,7 +89,7 @@ flutter build apk --release
 ```
 
 > **No secrets or key files are needed to build.** The repo ships with an empty app list. You add your own secrets inside the running app, and they stay on your device.
-> The release build is signed with the debug key by default and uses the placeholder id `com.example.st_authenticator`. Change both before distributing it ([see below](#before-you-distribute-your-own-build)).
+> The release build is signed with the debug key by default (application id: `com.sherasiya.authenticator`). Set up your own signing key before distributing it ([see below](#before-you-distribute-your-own-build)).
 
 ---
 
@@ -178,8 +178,7 @@ Read this before you rely on it.
 
 ### Before you distribute your own build
 
-- Change the application id from `com.example.st_authenticator` (`android/app/build.gradle.kts`).
-- Create your own signing key and configure release signing. Do not commit the keystore.
+- Create your own signing key and configure release signing (the application id `com.sherasiya.authenticator` is set in `android/app/build.gradle.kts`). Do not commit the keystore.
 - After adding any dependency, check that the **release** merged manifest still has no `INTERNET` permission (only `CAMERA` should remain).
 
 ---
